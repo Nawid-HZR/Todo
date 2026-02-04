@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -71,4 +72,43 @@ public class TodoServiceImpl implements TodoService {
         return todos.stream().map((todo -> modelMapper.map(todo, TodoDto.class)))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public TodoDto updateTodo(TodoDto todoDto, long id) {
+        Todo todo = todoRepo.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("The Id not found with: "+id));
+        todo.setTitle(todoDto.getTitle());
+        todo.setDescription(todoDto.getDescription());
+        todo.setCompleted(todoDto.isCompleted());
+        Todo updatedTodo = todoRepo.save(todo);
+        return modelMapper.map(updatedTodo, TodoDto.class);
+    }
+
+    @Override
+    public void deleteTodo(long id) {
+        Todo todo = todoRepo.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Not any todo with id "+ id));
+        todoRepo.deleteById(id);
+    }
+
+    @Override
+    public TodoDto completeTodo(long id) {
+        Todo todo = todoRepo.findById(id).orElseThrow(
+                ()-> new ResourceNotFoundException("not found with the id: "+id));
+        todo.setCompleted(Boolean.TRUE);
+        Todo updatedTodo = todoRepo.save(todo);
+        return modelMapper.map(updatedTodo, TodoDto.class);
+    }
+
+    @Override
+    public TodoDto incompleteTodo(long id) {
+        Todo todo = todoRepo.findById(id).orElseThrow(
+                () -> new ResourceNotFoundException("not found with id: "+ id));
+
+        todo.setCompleted(Boolean.FALSE);
+        Todo updatedTodo = todoRepo.save(todo);
+        return modelMapper.map(updatedTodo, TodoDto.class);
+
+    }
+
 }

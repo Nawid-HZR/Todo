@@ -1,6 +1,7 @@
 package com.nawid.ToDo.controller;
 
 import com.nawid.ToDo.dto.TodoDto;
+import com.nawid.ToDo.entity.Todo;
 import com.nawid.ToDo.service.TodoService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,29 @@ public class TodoController {
         return new ResponseEntity<>(todos, HttpStatus.OK);
     }
 
+    @PutMapping("{id}")
+    public ResponseEntity<TodoDto> updateTodo(@RequestBody TodoDto todoDto, @PathVariable long id){
+        TodoDto updatedTodo = todoService.updateTodo(todoDto, id);
+        return ResponseEntity.ok(updatedTodo);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<String> deleteTodo(@PathVariable long id){
+        todoService.deleteTodo(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PatchMapping("{id}/complete")
+    public ResponseEntity<TodoDto> completeTodo(@PathVariable long id){
+        TodoDto updatedTodo = todoService.completeTodo(id);
+        return ResponseEntity.ok(updatedTodo);
+
+    }
+    @PatchMapping("{id}/incomplete")
+    public ResponseEntity<TodoDto> incompleteTodo(@PathVariable long id){
+        TodoDto updatedTodo = todoService.incompleteTodo(id);
+        return ResponseEntity.ok(updatedTodo);
+    }
 
 
 }
