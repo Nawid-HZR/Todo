@@ -31,3 +31,51 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# ---------------------------
+# Build folders
+# ---------------------------
+/target/
+/build/
+
+# ---------------------------
+# IntelliJ IDEA
+# ---------------------------
+/.idea/
+/*.iml
+/out/
+
+
+# ---------------------------
+# OS files
+# ---------------------------
+.DS_Store
+Thumbs.db
+
+# ---------------------------
+# Logs
+# ---------------------------
+*.log
+
+# ---------------------------
+# Environment / sensitive configs
+# ---------------------------
+/src/main/resources/application.properties
+/src/main/resources/application.yml
+.env
+/secrets/
+
+# ---------------------------git
+# Maven / Gradle
+# ---------------------------
+.mvn/
+.gradle/
+!gradle/wrapper/gradle-wrapper.jar
+
+# ---------------------------
+# Other
+# ---------------------------
+*.class
+*.jar
+*.war
+*.ear
